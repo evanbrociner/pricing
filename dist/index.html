@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<html lang="en">
+
+<head>
+  <script src="https://d3js.org/d3.v7.min.js" charset="utf-8"></script>
+
+  <meta charset="utf-8" />
+
+
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <style>
+    #scrolly {
+      position: relative;
+    }
+
+    article {
+      position: relative;
+      padding: 0;
+      max-width: 30rem;
+      margin: 0 auto;
+      padding-bottom: 10rem;
+    }
+
+    .sticky-thing {
+      position: -webkit-sticky;
+      position: sticky;
+      left: 0;
+      width: 100%;
+      margin: 0;
+      z-index: 0;
+
+      /* Make 75%, centered */
+      top: 12.5vh;
+      height: 75vh;
+
+      /* Make full-height */
+      top: 0vh;
+      height: 100vh;
+
+      /* Center everything inside */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step {
+      margin: 0 auto 20rem auto;
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .step:last-child {
+      margin-bottom: 0;
+    }
+
+    .step.is-active {
+      background-color: rgba(0, 0, 0, 1);
+    }
+
+    .step p {
+      padding: 1rem;
+      font-size: 1rem;
+    }
+
+    #intro p {
+      font-size: 0.75em;
+      padding: 15px;
+    }
+  </style>
+</head>
+
+
+<main>
+
+  <section id="intro">
+    <h1>New York State Legislative Delays - and their vetoes.</h1>
+    <p>New York state legislature has gotten into the habit of holding onto bills after passge.
+      These delays are chronic - and help give Governor Cuomo more time to evaluate them than
+      intended by the state constitution. Below, we show just how many bills fall outside the 10 and 30
+      day period he typically has to review them.
+    </p>
+  </section>
+
+  <section id="scrolly">
+    <div class="sticky-thing">
+
+      <div id="chart"></div>
+
+    </div>
+
+    <article>
+      <div class="step" id="step-0">
+        <p>1,235 bills made it to Governor Cuomo's desk for the 2011-2012 legislative session -
+          Many of which took longer than 30 days to arrive after passage in both houses. At most, the
+          governor has 30 days to either sign or veto a bill. </p>
+      </div>
+      <div class="step" id="step-1">
+        <p>This line represents the 30 time-limit where something must be done for a bill - once it's
+          at the governor's desk. Dozens of bills made it to the governor's desk underneath that time
+          frame. But many ran over.</p>
+      </div>
+
+      <div>
+        <!-- spacer -->
+      </div>
+    </article>
+  </section>
+</main>
+
+<main2>
+
+  <section id="scrolly2">
+    <div class="sticky-thing">
+      <div id="chart2"></div>
+    </div>
+
+    <article>
+
+      <div class="step" id="step-2">
+        <p>Here shows how long it takes some bills to get to his desk -- some take close to 200 days.
+        </p>
+      </div>
+      <div class="step" id="step-3">
+        <p>Even then after those extended review sessions, many bills were vetoed, as the orange dots represent.</p>
+      </div>
+      <div class="step" id="step-4">
+      </div>
+      <div>
+        <!-- spacer -->
+      </div>
+    </article>
+  </section>
+</main2>
+
+  <section id="outro"></section>
+<script src="https://unpkg.com/d3@5.9.1/dist/d3.min.js"></script>
+<script src="https://unpkg.com/scrollama"></script>
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
+
+<script>
+  // using d3 for convenience
+  var main = document.querySelector("main");
+  var scrolly = main.querySelector("#scrolly");
+  var article = scrolly.querySelector("article");
+  var steps = article.querySelectorAll(".step");
+
+  var main2 = document.querySelector("main2");
+  var scrolly = main2.querySelector("#scrolly2");
+  var article = scrolly.querySelector("article");
+  var steps = article.querySelectorAll(".step");
+
+  //The message variable is specific to this example
+  const message = document.querySelector('.message');
+
+
+
+  // initialize the scrollama
+  const scroller = scrollama();
+
+  function handleStepEnter(response) {
+
+    const el = response.element;
+    const dir = response.direction;
+
+    // Remove is-active from all steps then add is-active to this step
+    steps.forEach(step => step.classList.remove('is-active'));
+    el.classList.add('is-active');
+
+    d3.select(el).dispatch('stepin');
+  }
+
+  function handleStepExit(response) {
+    const el = response.element;
+    const dir = response.direction;
+    let position = window.pageYOffset;
+
+    window.addEventListener('scroll', () => {
+      let scroll = window.pageYOffset;
+
+    if (scroll < position) {
+      d3.select(el).dispatch('stepout')
+    }
+      });
+  }
+
+
+  function init() {
+    // 2. setup the scroller passing options
+    // 		this will also initialize trigger observations
+    // 3. bind scrollama event handlers (this can be chained like below)
+    scroller
+      .setup({
+        step: "#scrolly article .step",
+        offset: 0.50,
+        debug: false
+      })
+      .onStepEnter(handleStepEnter)
+
+      .onStepExit(handleStepExit);
+
+    // setup resize event
+    window.addEventListener("resize", scroller.resize);
+  }
+
+  // kick things off
+  init();
+</script>
+
+<script src="main.js"></script>
+
+</body>
+
+</html>

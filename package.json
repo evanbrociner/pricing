@@ -1,0 +1,36 @@
+{
+  "dependencies": {
+    "d3-axis": "^3.0.0",
+    "d3-scale": "^4.0.2",
+    "graph-scroll": "^1.0.2",
+    "intersection-observer": "^0.12.0",
+    "lodash": "^4.17.21",
+    "scrollama": "^3.1.0",
+    "webpack-merge": "^5.8.0"
+  },
+  "name": "healthcarepricing",
+  "description": "analysis of pricing in healthcare",
+  "version": "1.0.0",
+  "main": "d3.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evanbrociner/pricing.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/evanbrociner/pricing/issues"
+  },
+  "homepage": "https://github.com/evanbrociner/pricing#readme",
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2"
+  },
+  "keywords": []
+}
