@@ -33,10 +33,8 @@ def get_geo(result_df):
 
 
             if hasattr(loc,'latitude'):
-
-                result_df.loc[index, 'latitude'] = str(loc.latitude)
-                result_df.loc[index, 'longitude'] = str(loc.longitude)
-
+                # "coordinates": [ longitude, latitude ]
+                result_df.loc[index, 'coordinates'] = [loc.longitude,loc.latitude]
 
         except:
             continue
