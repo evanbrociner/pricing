@@ -1,8 +1,10 @@
 {
   "dependencies": {
     "d3-axis": "^3.0.0",
+    "d3-composite-projections": "^1.4.0",
     "d3-geo": "^3.0.1",
     "d3-geo-projection": "^4.0.0",
+    "d3-queue": "^3.0.7",
     "d3-scale": "^4.0.2",
     "graph-scroll": "^1.0.2",
     "intersection-observer": "^0.12.0",
