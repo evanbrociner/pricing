@@ -17,28 +17,29 @@ def get_geo(result_df):
 
     result_df['latitude'] = 'NA'
     result_df['longitude'] = 'NA'
+    result_df['coordinates'] = 'NA'
 
     for index in range(len(result_df)):
+
         try:
 
             geolocator = Nominatim(user_agent="my_user_agent")
-            print(result_df.loc[index]['combined_address'])
             combined_address = ', '.join(result_df.loc[index]['combined_address'])
             loc = geolocator.geocode(combined_address)
 
-            if None:
+            if loc is None:
                 loc = geolocator.geocode(
                     result_df.loc[index]['city'] + ', ' +
                     result_df.loc[index]['state'])
 
-
             if hasattr(loc,'latitude'):
                 # "coordinates": [ longitude, latitude ]
                 result_df.loc[index, 'coordinates'] = [loc.longitude,loc.latitude]
+                result_df.loc[index, 'longitude'] = loc.longitude
+                result_df.loc[index, 'latitude'] = loc.latitude
+        except Exception:
+            pass
 
-        except:
-            continue
-        print(result_df.loc[index])
     return result_df
 
 def hospitals_per_state():
@@ -60,8 +61,11 @@ def hospitals_per_state():
                      if_exists='replace', index=False)
 
     result_df = get_geo(result_df)
+    result_df= result_df[result_df.columns[~result_df.columns.isin(['longitude', 'latitude'])]]
+
 
     result_df.to_csv('data/hospitals.csv', sep=',')
+    result_df.to_json('data/hospitals.json')
 
 
 def average_price_per_code():
