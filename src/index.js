@@ -71,18 +71,20 @@ import * as topojson from 'topojson'
       d3.csv('/data/hospitals.csv', function(data) {
         console.log(data)
 
+
+
         svg.selectAll('.hospitals')
           .data(data)
           .enter().append('circle')
           .attr('class', 'hospitals')
           .attr('r', 2)
           .attr("cx", function(d) {
-            return projection([d.lon, d.lat])[0];
+            return projection([d.longitude, d.latitude])[0];
           })
           .attr("cy", function(d) {
-            return projection([d.lon, d.lat])[1];
+            return projection([d.longitude, d.latitude])[1];
           })
-          .attr("r", 14)
+          .attr("r", 4)
           .style("fill", "69b3a2")
           .attr("stroke", "#69b3a2")
           .attr("stroke-width", 3)
